@@ -23,7 +23,7 @@
 <!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
-  <div id="api_search_autocomplete">
+  
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -39,7 +39,7 @@
     </ul>
 
 
-  {{-- <div id="api_search_autocomplete"> --}}
+    <div id="api_search_autocomplete" style="position:relative">
     <!-- SEARCH FORM -->
     <form class="form-inline ml-3">
       <div class="input-group input-group-sm">
@@ -47,15 +47,33 @@
         name="nombre"
         v-model="palabra_a_buscar"
         v-on:keyup="autoComplete"
+        v-on:keyup.enter="SubmitForm"
         >
         <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
+          <button id="busqueda"
+          ref="SubmitButtonSearch"
+          class="btn btn-navbar" type="submit">
             <i class="fas fa-search"></i>
           </button>
         </div>
       </div>
     </form>
 
+
+      <div class="panel-footer" v-if="resultados.length" style="position:absolute; z-index:3; left:9px;" >
+        <ul class="list-group" style="align-items:center; justify-content:center;">
+            <li class="list-group-item" v-for="resultado in resultados">
+              <a href="#" class="dropdown-item" 
+              v-on:click.prevent="select(resultado)">
+
+                <span v-html="resultado.name_negrita"></span>
+              </a>
+            </li>
+        </ul>
+
+    </div>
+
+</div>
     
 
     <!-- Right navbar links -->
@@ -153,21 +171,6 @@
     </ul>
   </nav>
   <!-- /.navbar -->
-
-  <div class="panel-footer" v-if="resultados.length" >
-    <ul class="list-group" style="align-items:center; justify-content:center;">
-        <li class="list-group-item" v-for="resultado in resultados">
-          <a href="#" class="dropdown-item" 
-          v-on:click.prevent="palabra_a_buscar = resultado.nombre">
-            <span v-html="resultado.name_negrita"></span>
-          </a>
-        </li>
-    </ul>
-
-</div>
-
-</div>
-
 
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
